@@ -1,1 +1,138 @@
-site_name: My Docs
+# https://www.mkdocs.org/user-guide/configuration
+# https://github.com/squidfunk/mkdocs-material/blob/d51279ae72ffed88e4060b738ae4903b43d001ac/mkdocs.yml
+
+theme:
+  name: material
+
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    toggle:
+      icon: material/weather-sunny
+      name: Switch to dark mode
+    primary: green
+    accent: light green
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: red
+    accent: red
+    toggle:
+      icon: material/weather-night
+      name: Switch to light mode
+
+  features:
+  - navigation.instant
+  - navigation.tracking
+  - navigation.expand
+  - toc.integrate
+  - navigation.top
+  - content.code.annotate
+
+site_name: FuzzyMonkey Documentation
+site_url: https://docs.fuzzymonkey.co
+
+repo_url: https://github.com/FuzzyMonkeyCo/docs.fuzzymonkey.co
+edit_uri: blob/main/docs/
+
+plugins:
+- search
+- minify:
+    minify_html: true
+
+markdown_extensions:
+- footnotes
+- meta
+- toc: {permalink: true}
+
+- pymdownx.arithmatex:
+    generic: true
+- pymdownx.betterem:
+    smart_enable: all
+- pymdownx.caret
+- pymdownx.details
+- pymdownx.emoji:
+    emoji_index: !!python/name:materialx.emoji.twemoji
+    emoji_generator: !!python/name:materialx.emoji.to_svg
+- pymdownx.highlight
+- pymdownx.inlinehilite
+- pymdownx.keys
+# - pymdownx.magiclink:
+#     repo_url_shorthand: true
+#     user: squidfunk
+#     repo: mkdocs-material
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.superfences:
+    custom_fences:
+      - name: mermaid
+        class: mermaid-experimental
+        format: !!python/name:pymdownx.superfences.fence_code_format
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.tilde
+
+nav:
+- Home: index.md
+- Getting started:
+  - Installation: install.md
+  - Usage: usage.md
+#   - Creating your site: creating-your-site.md
+#   - Publishing your site: publishing-your-site.md
+#   - Customization: customization.md
+#   - License: license.md
+#   - Changelog:
+#     - changelog/index.md
+#     - How to upgrade: upgrade.md
+# - Setup:
+#   - Changing the colors: setup/changing-the-colors.md
+#   - Changing the fonts: setup/changing-the-fonts.md
+#   - Changing the language: setup/changing-the-language.md
+#   - Changing the logo and icons: setup/changing-the-logo-and-icons.md
+#   - Setting up navigation: setup/setting-up-navigation.md
+#   - Setting up site search: setup/setting-up-site-search.md
+#   - Setting up site analytics: setup/setting-up-site-analytics.md
+#   - Setting up social cards: setup/setting-up-social-cards.md
+#   - Setting up tags: setup/setting-up-tags.md
+#   - Setting up versioning: setup/setting-up-versioning.md
+#   - Setting up the header: setup/setting-up-the-header.md
+#   - Setting up the footer: setup/setting-up-the-footer.md
+#   - Adding a git repository: setup/adding-a-git-repository.md
+#   - Adding a comment system: setup/adding-a-comment-system.md
+#   - Extensions:
+#     - setup/extensions/index.md
+#     - Python Markdown: setup/extensions/python-markdown.md
+#     - Python Markdown Extensions: setup/extensions/python-markdown-extensions.md
+- Languages:
+  - Starlark:
+    - The language: starlark/index.md
+    - Tools:
+      - assert.that(..): starlark/assert_that.md
+      - Check: starlark/builtin-check.md
+      - Env: starlark/builtin-env.md
+    - Specification: starlark/spec.md
+    - Design: starlark/design.md
+  # - Abbreviations: reference/abbreviations.md
+  # - Admonitions: reference/admonitions.md
+  # - Buttons: reference/buttons.md
+  # - Code blocks: reference/code-blocks.md
+  # - Content tabs: reference/content-tabs.md
+  # - Data tables: reference/data-tables.md
+  # - Diagrams: reference/diagrams.md
+  # - Footnotes: reference/footnotes.md
+  # - Formatting: reference/formatting.md
+  # - Icons + Emojis: reference/icons-emojis.md
+  # - Images: reference/images.md
+  # - Lists: reference/lists.md
+  # - MathJax: reference/mathjax.md
+  # - Meta tags: reference/meta-tags.md
+# - Insiders:
+#   - insiders/index.md
+#   - Getting started:
+#     - Installation: insiders/getting-started.md
+#     - Changelog: insiders/changelog.md
+# - Blog:
+#   - blog/index.md
+#   - 2021:
+#     - blog/2021/excluding-content-from-search.md
+#     - blog/2021/search-better-faster-smaller.md
