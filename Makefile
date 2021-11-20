@@ -10,8 +10,8 @@ clean:
 	$(if $(wildcard site), rm -r site)
 
 netlify:
-	python3 -m ensurepip --upgrade
-	python3 -m pip install --upgrade pip
+	python -m ensurepip --upgrade
+	python -m pip install --upgrade pip
 	# https://github.com/squidfunk/mkdocs-material/blob/77171e02a4aa4b346cd95f796f5721369d02ab8a/Dockerfile
-	python3 -m pip install --no-cache-dir mkdocs-material 'mkdocs-minify-plugin>=0.3' 'mkdocs-redirects>=1.0'
+	pip install --no-cache-dir mkdocs-material 'mkdocs-minify-plugin>=0.3' 'mkdocs-redirects>=1.0'
 	mkdocs build
