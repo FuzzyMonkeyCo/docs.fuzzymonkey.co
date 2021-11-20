@@ -10,5 +10,6 @@ clean:
 	$(if $(wildcard site), rm -r site)
 
 netlify:
-	pip install mkdocs-material 'mkdocs-minify-plugin>=0.3' 'mkdocs-redirects>=1.0'
+	# https://github.com/squidfunk/mkdocs-material/blob/77171e02a4aa4b346cd95f796f5721369d02ab8a/Dockerfile
+	pip install --no-cache-dir mkdocs-material 'mkdocs-minify-plugin>=0.3' 'mkdocs-redirects>=1.0'
 	mkdocs build
