@@ -27,7 +27,7 @@ theme:
   - navigation.top
   - content.code.annotate
 
-site_name: FuzzyMonkey Documentation
+site_name: Docs
 site_url: https://docs.fuzzymonkey.co
 
 repo_url: https://github.com/FuzzyMonkeyCo/docs.fuzzymonkey.co
@@ -76,7 +76,7 @@ nav:
 - Home: index.md
 - Getting started:
   - Installation: install.md
-  - Usage: usage.md
+  - Your first tests: starting.md
 #   - Creating your site: creating-your-site.md
 #   - Publishing your site: publishing-your-site.md
 #   - Customization: customization.md
@@ -103,15 +103,26 @@ nav:
 #     - setup/extensions/index.md
 #     - Python Markdown: setup/extensions/python-markdown.md
 #     - Python Markdown Extensions: setup/extensions/python-markdown-extensions.md
+- Command-line reference:
+  - Usage: usage.md
+  - monkey init: monkey/init.md
+  # - monkey fuzz: monkey/fuzz.md
+  # - monkey lint: monkey/lint.md
+  # - monkey fmt: monkey/fmt.md
+  # - monkey schema: monkey/schema.md
+  # - monkey exec: monkey/exec.md
+  # - monkey env: monkey/env.md
+  # - monkey logs: monkey/logs.md
+  # - monkey pastseed: monkey/pastseed.md
+  # - monkey update: monkey/update.md
 - Languages:
   - Starlark:
     - The language: starlark/index.md
     - Tools:
-      - assert.that(..): starlark/assert_that.md
+      - OpenAPIv3: starlark/modeling-openapiv3.md
       - Check: starlark/builtin-check.md
       - Env: starlark/builtin-env.md
-    - Specification: starlark/spec.md
-    - Design: starlark/design.md
+      - assert.that(..): starlark/assert_that.md
   # - Abbreviations: reference/abbreviations.md
   # - Admonitions: reference/admonitions.md
   # - Buttons: reference/buttons.md
