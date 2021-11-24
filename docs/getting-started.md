@@ -1,4 +1,11 @@
-# Getting started
+# Getting Started with `monkey`
+
+This page contains resources that help you get started with `monkey` including installation steps. It also provides links to tutorials and reference guides.
+
+TODO
+
+https://docs.bazel.build/versions/main/getting-started.html
+
 
 ```shell
 monkey init --OpenAPIv3 my/file.yaml --OpenAPIv3-host http://localhost:4000
@@ -24,7 +31,7 @@ OpenAPIv3(
 
 Check(
     name = "responds_in_a_timely_manner",
-    after_response = lambda ctx: assert.that(ctx.response.elapsed_ns).is_at_most(500e6),
+    after_response = lambda ctx: assert.that(ctx.response.elapsed_ms).is_at_most(500),
     tags = ["timing"],
 )
 ```
@@ -34,5 +41,3 @@ We'll come back to this. First let's generate tests!
 ```shell
 monkey fuzz
 ```
-
-<!-- TODO -->

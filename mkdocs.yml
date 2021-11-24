@@ -22,7 +22,7 @@ theme:
   features:
   - navigation.instant
   - navigation.tracking
-  - navigation.expand
+  # - navigation.expand
   - toc.integrate
   - navigation.top
   - content.code.annotate
@@ -37,11 +37,16 @@ plugins:
 - search
 - minify:
     minify_html: true
+# - markdownextradata: {}
+#https://github.com/rosscdh/mkdocs-markdownextradata-plugin
+# extra:
+#   monkey_version: MONKEY_VERSION # TODO: rewrite from github's releases/latest
 
 markdown_extensions:
 - footnotes
 - meta
-- toc: {permalink: true}
+- toc:
+    permalink: true
 
 - pymdownx.arithmatex:
     generic: true
@@ -73,75 +78,59 @@ markdown_extensions:
 - pymdownx.tilde
 
 nav:
-- Home: index.md
-- Getting started:
-  - Installation: install.md
-  - Your first tests: starting.md
-#   - Creating your site: creating-your-site.md
-#   - Publishing your site: publishing-your-site.md
-#   - Customization: customization.md
-#   - License: license.md
-#   - Changelog:
-#     - changelog/index.md
-#     - How to upgrade: upgrade.md
-# - Setup:
-#   - Changing the colors: setup/changing-the-colors.md
-#   - Changing the fonts: setup/changing-the-fonts.md
-#   - Changing the language: setup/changing-the-language.md
-#   - Changing the logo and icons: setup/changing-the-logo-and-icons.md
-#   - Setting up navigation: setup/setting-up-navigation.md
-#   - Setting up site search: setup/setting-up-site-search.md
-#   - Setting up site analytics: setup/setting-up-site-analytics.md
-#   - Setting up social cards: setup/setting-up-social-cards.md
-#   - Setting up tags: setup/setting-up-tags.md
-#   - Setting up versioning: setup/setting-up-versioning.md
-#   - Setting up the header: setup/setting-up-the-header.md
-#   - Setting up the footer: setup/setting-up-the-footer.md
-#   - Adding a git repository: setup/adding-a-git-repository.md
-#   - Adding a comment system: setup/adding-a-comment-system.md
-#   - Extensions:
-#     - setup/extensions/index.md
-#     - Python Markdown: setup/extensions/python-markdown.md
-#     - Python Markdown Extensions: setup/extensions/python-markdown-extensions.md
-- Command-line reference:
-  - Usage: usage.md
-  - monkey init: monkey/init.md
-  # - monkey fuzz: monkey/fuzz.md
-  # - monkey lint: monkey/lint.md
-  # - monkey fmt: monkey/fmt.md
-  # - monkey schema: monkey/schema.md
-  # - monkey exec: monkey/exec.md
-  # - monkey env: monkey/env.md
-  # - monkey logs: monkey/logs.md
-  # - monkey pastseed: monkey/pastseed.md
-  # - monkey update: monkey/update.md
-- Languages:
-  - Starlark:
-    - The language: starlark/index.md
-    - Tools:
-      - OpenAPIv3: starlark/modeling-openapiv3.md
-      - Check: starlark/builtin-check.md
-      - Env: starlark/builtin-env.md
-      - assert.that(..): starlark/assert_that.md
-  # - Abbreviations: reference/abbreviations.md
-  # - Admonitions: reference/admonitions.md
-  # - Buttons: reference/buttons.md
-  # - Code blocks: reference/code-blocks.md
-  # - Content tabs: reference/content-tabs.md
-  # - Data tables: reference/data-tables.md
-  # - Diagrams: reference/diagrams.md
-  # - Footnotes: reference/footnotes.md
-  # - Formatting: reference/formatting.md
-  # - Icons + Emojis: reference/icons-emojis.md
-  # - Images: reference/images.md
-  # - Lists: reference/lists.md
-  # - MathJax: reference/mathjax.md
-  # - Meta tags: reference/meta-tags.md
-# - Insiders:
-#   - insiders/index.md
-#   - Getting started:
-#     - Installation: insiders/getting-started.md
-#     - Changelog: insiders/changelog.md
+- Home:
+  - Vision: vision.md
+  - Getting started: getting-started.md
+  - Glossary: glossary.md
+- Installing monkey:
+  - Overview: installation-overview.md
+  - macOS: installation-macos.md
+  - Ubuntu: installation-ubuntu.md
+  - Windows: installation-windows.md
+  - with Docker: installation-docker.md
+  - Compiling from source: installation-source.md
+  - Updating monkey: updating-monkey.md
+- Setting up your environment:
+  - Command-line completion: cli-completion.md
+  - Integrating with IDEs: ide-integration.md
+- Tutorials:
+  - demo1: tutorial-demo1.md
+  - Hot express-js app with npm and github action: tutorial-demo2.md
+  - Elixir openapi app REST with gitlab CI: tutorial-demo3.md
+  - Go using Goa: tutorial-demo4.md
+- Understanding:
+  - Core concepts: concepts-core.md
+  - Hermeticity: concepts-hermeticity.md
+  - The Starlark language: starlark.md
+  - assert.that(..): assert_that.md
+  - Command-line reference: cli-reference.md
+- Releases:
+  - Backwards compatibility: backwards-compatibility.md
+
+# - Getting started:
+#   - Installation: install.md
+#   - Your first tests: starting.md
+# - Command-line reference:
+#   - Usage: usage.md
+#   - monkey init: monkey/init.md
+#   # - monkey fuzz: monkey/fuzz.md
+#   # - monkey lint: monkey/lint.md
+#   # - monkey fmt: monkey/fmt.md
+#   # - monkey schema: monkey/schema.md
+#   # - monkey exec: monkey/exec.md
+#   # - monkey env: monkey/env.md
+#   # - monkey logs: monkey/logs.md
+#   # - monkey pastseed: monkey/pastseed.md
+#   # - monkey update: monkey/update.md
+# - Languages:
+#   - Starlark:
+#     - The language: starlark/index.md
+#     - Tools:
+#       - OpenAPIv3: starlark/modeling-openapiv3.md
+#       - Check: starlark/builtin-check.md
+#       - Env: starlark/builtin-env.md
+#       - assert.that(..): starlark/assert_that.md
+
 # - Blog:
 #   - blog/index.md
 #   - 2021:

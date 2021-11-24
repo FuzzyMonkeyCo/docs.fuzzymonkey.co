@@ -1,8 +1,6 @@
 # `monkey` usage
 
 ```
-monkey M.m.p go1.15.5 linux amd64
-
 Usage:
   monkey [-vvv] fuzz [--intensity=N] [--seed=SEED] [--label=KV]...
                      [--tags=TAGS | --exclude-tags=TAGS]
@@ -47,5 +45,6 @@ Try:
   echo '"kitty"' | monkey schema --validate-against=#/components/schemas/PetKind
 ```
 
-<!-- TODO: a subcategory per subcommand -->
-<!-- TODO: examples and notes/suggestions -->
+TODO: a subcategory per subcommand
+TODO: examples and notes/suggestions
+https://github.com/Infinidat/infi.docopt_completion
