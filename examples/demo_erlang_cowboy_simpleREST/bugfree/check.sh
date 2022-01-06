@@ -92,6 +92,7 @@ setup() {
 check() {
     info fmt
     set +e
+    # shellcheck disable=SC2086  # for $VVV
     $MONKEY $VVV fmt; code=$?
     set -e
     if  [[ $code -ne 0 ]]; then
@@ -101,6 +102,7 @@ check() {
 
     info lint
     set +e
+    # shellcheck disable=SC2086  # for $VVV
     $MONKEY $VVV lint; code=$?
     set -e
     if  [[ $code -ne $V ]]; then
@@ -117,6 +119,7 @@ check() {
     if [[ -z "$SEED" ]]; then
         info fuzz no-shrinking
         set +e
+        # shellcheck disable=SC2086  # for $VVV
         $MONKEY $VVV fuzz --intensity=$intensity --time-budget=$timeout --no-shrinking; code=$?
         set -e
         if  [[ $code -ne $T ]]; then
@@ -145,7 +148,8 @@ check() {
 
     info fuzz shrink seed
     set +e
-    $MONKEY $VVV fuzz --intensity=$intensity --time-budget=$timeout --seed=$SEED; code=$?
+    # shellcheck disable=SC2086  # for $VVV
+    $MONKEY $VVV fuzz --intensity=$intensity --time-budget=$timeout --seed="$SEED"; code=$?
     set -e
     if  [[ $code -ne $T ]]; then
         error "$branch" "$STAR" V="$V" "T=$T (got $code)"
