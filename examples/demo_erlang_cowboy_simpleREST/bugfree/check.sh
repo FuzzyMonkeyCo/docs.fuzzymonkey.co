@@ -57,14 +57,14 @@ Ts[$i]=2
 
 
 info() {
-    printf '\e[1;3m%s\e[0m\n' "$*"
+    printf '\e[1;3m%s\e[0m\n\n\n' "$*"
 }
 error() {
     echo "( SEED=$($MONKEY pastseed) )"
     printf '\e[1;3m%s ...failed\e[0m\n' "$*"
 }
 
-info Version
+info "$MONKEY" --version
 $MONKEY --version
 rebar3 clean --all
 rebar3 as prod release
@@ -90,7 +90,7 @@ setup() {
 }
 
 check() {
-    info fmt
+    info "$MONKEY" "$VVV" fmt
     set +e
     # shellcheck disable=SC2086  # for $VVV
     $MONKEY $VVV fmt; code=$?
@@ -100,7 +100,7 @@ check() {
         return 1
     fi
 
-    info lint
+    info "$MONKEY" "$VVV" lint
     set +e
     # shellcheck disable=SC2086  # for $VVV
     $MONKEY $VVV lint; code=$?
@@ -117,10 +117,10 @@ check() {
     intensity=999 # TODO: drop --intensity
 
     if [[ -z "$SEED" ]]; then
-        info fuzz no-shrinking
+        info "$MONKEY" "$VVV" fuzz --intensity=$intensity --time-budget-overall=$timeout --no-shrinking
         set +e
         # shellcheck disable=SC2086  # for $VVV
-        $MONKEY $VVV fuzz --intensity=$intensity --time-budget=$timeout --no-shrinking; code=$?
+        $MONKEY $VVV fuzz --intensity=$intensity --time-budget-overall=$timeout --no-shrinking; code=$?
         set -e
         if  [[ $code -ne $T ]]; then
             error "$branch" "$STAR" V="$V" "T=$T (got $code)"
@@ -128,7 +128,7 @@ check() {
         fi
 
         if [[ $V -eq 0 ]]; then
-            info pastseed
+            info "$MONKEY" pastseed
             seedfile=$(mktemp)
             set +e
             $MONKEY pastseed >"$seedfile" 2>&1; code=$?
@@ -146,10 +146,10 @@ check() {
         info "Given SEED=$SEED"
     fi
 
-    info fuzz shrink seed
+    info "$MONKEY" "$VVV" fuzz --intensity=$intensity --time-budget-overall=$timeout --seed="$SEED"
     set +e
     # shellcheck disable=SC2086  # for $VVV
-    $MONKEY $VVV fuzz --intensity=$intensity --time-budget=$timeout --seed="$SEED"; code=$?
+    $MONKEY $VVV fuzz --intensity=$intensity --time-budget-overall=$timeout --seed="$SEED"; code=$?
     set -e
     if  [[ $code -ne $T ]]; then
         error "$branch" "$STAR" V="$V" "T=$T (got $code)"
@@ -174,7 +174,7 @@ cleanup() {
         return 1
     fi
     if curl --output /dev/null --silent --fail --head http://my_image:6773/api/1/items; then
-        info Some instance is still running on my_image!
+        info Container my_image is still running!
         return 1
     fi
 

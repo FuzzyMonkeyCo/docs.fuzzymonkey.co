@@ -5,6 +5,7 @@
  ,{registered, []}
  ,{applications, [kernel
                  ,stdlib
+                 ,sasl
                  ,jsx
                  ,cowboy
                  ]}
