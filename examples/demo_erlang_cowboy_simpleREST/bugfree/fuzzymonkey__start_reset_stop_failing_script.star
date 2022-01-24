@@ -9,7 +9,7 @@
 # NOTE: you may want to cleanup after a fuzzing run with
 #  $ monkey exec stop
 
-OpenAPIv3(
+monkey.OpenAPIv3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.json",
     host = "http://localhost:6773",
@@ -40,7 +40,7 @@ echo Stopped localhost:6773
 
 ## A simple check that runs after every HTTP call
 
-Check(
+monkey.check(
     name = "responds_within_300ms",
     after_response = lambda ctx: assert.that(ctx.response.elapsed_ns).is_at_most(300e6),
     tags = ["timing"],
@@ -65,7 +65,6 @@ def model_single_user(ctx):
 
     # Remove all items from model state
     if matches(ctx, "DELETE", "/items", 204):
-        #######FIXME Return State in order to commit its changes:
         ctx.state.clear()
         return
 
@@ -101,7 +100,7 @@ def model_single_user(ctx):
             assert.that(ctx.state[item_id]).is_equal_to(item)
         return
 
-Check(
+monkey.check(
     name = "some_simple_web_app_model",
     after_response = model_single_user,
     state = {},  # map of ItemID (str) to Item (dict)
@@ -133,7 +132,7 @@ def verify_overwriting(ctx):
     for key, value in patch.items():
         assert.that(merged).contains_item(key, value)
 
-Check(
+monkey.check(
     name = "verify_overwriting",
     after_response = verify_overwriting,
     tags = ["api_contract"],
