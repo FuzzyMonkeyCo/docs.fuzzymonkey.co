@@ -6,7 +6,7 @@
 # OpenAPIv3 (formerly known as Swagger) is supported with other formats coming
 #  such as Postman Collection, RAML, Paw as well as gRPC and others
 
-monkey.OpenAPIv3(
+monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.json",
     host = "http://localhost:6773",

@@ -7,7 +7,7 @@
 # Resolving happens while linting models and before any execution.
 # Resolved values are accessible in reset executors as read-only.
 
-monkey.OpenAPIv3(
+monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.yml",
     host = "http://{host}:6773".format(host = Env("my_host", "127.0.0.1")),

@@ -9,7 +9,7 @@
 # Note though that once that beofre the 'start' step is executed,
 #  no changes to documentation will be taken into account.
 
-monkey.OpenAPIv3(
+monkey.openapi3(
     name = "my_simple_spec",
     # A typo was introduced in the documentation!
     file = "priv/openapi3v1.yml",

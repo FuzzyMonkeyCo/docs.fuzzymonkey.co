@@ -7,7 +7,7 @@
 # * start & reset & stop
 # * just reset
 
-monkey.OpenAPIv3(
+monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.yml",
     host = "http://localhost:6773",

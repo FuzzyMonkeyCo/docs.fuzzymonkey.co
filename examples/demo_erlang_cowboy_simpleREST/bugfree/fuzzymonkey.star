@@ -2,7 +2,7 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-monkey.OpenAPIv3(
+monkey.openapi3(
     name = "my_simple_spec",
     # Note: references to schemas in `file` are resolved relative to file's location.
     file = "priv/openapi3v1.yml",
