@@ -13,9 +13,14 @@ monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.json",
     host = "http://localhost:6773",
+)
+
+monkey.shell(
+    name = "my_simple_spec_implementation",
+    provides = ["my_simple_spec"],
 
     # Start
-    ExecStart = """
+    start = """
 echo Starting...
 until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&2; do
     (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample daemon) 1>&2
@@ -25,13 +30,13 @@ echo Started
 """,
 
     # A failing reset script
-    ExecReset = """
+    reset = """
 true  # Next command will fail due to non-zero exit code
 false
 """,
 
     # Stop
-    ExecStop = """
+    stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
 echo Stopped localhost:6773

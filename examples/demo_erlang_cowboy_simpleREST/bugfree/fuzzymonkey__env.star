@@ -11,9 +11,14 @@ monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.yml",
     host = "http://{host}:6773".format(host = Env("my_host", "127.0.0.1")),
+)
+
+monkey.shell(
+    name = "my_simple_spec_implementation",
+    provides = ["my_simple_spec"],
 
     # Start
-    ExecStart = """
+    start = """
 echo Starting...
 until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&2; do
     (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample daemon) 1>&2
@@ -23,10 +28,10 @@ echo Started
 """,
 
     # Reset
-    ExecReset = "[[ 204 = $(curl --silent --output /dev/null --write-out '%{http_code}' -X DELETE http://$my_host:6773/api/1/items) ]]",
+    reset = "[[ 204 = $(curl --silent --output /dev/null --write-out '%{http_code}' -X DELETE http://$my_host:6773/api/1/items) ]]",
 
     # Stop
-    ExecStop = """
+    stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
 echo Stopped $my_host:6773

@@ -8,9 +8,14 @@ monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.yml",
     host = "http://localhost:6773",
+)
+
+monkey.shell(
+    name = "my_simple_spec_implementation",
+    provides = ["my_simple_spec"],
 
     # Start
-    ExecStart = """
+    start = """
 docker --version
 
 docker build --compress --force-rm --tag my_image .
@@ -21,12 +26,12 @@ done
 """,
 
     # Reset
-    ExecReset = """
+    reset = """
 curl --fail -# -X DELETE http://localhost:6773/api/1/items
 """,
 
     # Stop
-    ExecStop = """
+    stop = """
 docker stop --time 1 my_image
 """,
 )

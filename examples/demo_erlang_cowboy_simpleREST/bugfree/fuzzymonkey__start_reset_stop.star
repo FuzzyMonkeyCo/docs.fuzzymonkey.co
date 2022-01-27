@@ -11,9 +11,14 @@ monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.yml",
     host = "http://localhost:6773",
+)
+
+monkey.shell(
+    name = "my_simple_spec_implementation",
+    provides = ["my_simple_spec"],
 
     # Start
-    ExecStart = """
+    start = """
 echo Starting...
 until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&2; do
     (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample daemon) 1>&2
@@ -23,12 +28,12 @@ echo Started
 """,
 
     # Reset
-    ExecReset = """
+    reset = """
 curl --fail -# -X DELETE http://localhost:6773/api/1/items
 """,
 
     # Stop
-    ExecStop = """
+    stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
 echo Stopped localhost:6773
