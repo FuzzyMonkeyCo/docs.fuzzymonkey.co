@@ -2,15 +2,15 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-# `Env(name, default="")` resolves environment variable `name` from the shell calling `monkey`.
-# `Env` returns a string and defaults to the empty string.
+# `monkey.env(name, default="")` resolves environment variable `name` from the shell calling `monkey`.
+# `monkey.env` returns a string and defaults to the empty string.
 # Resolving happens while linting models and before any execution.
 # Resolved values are accessible in reset executors as read-only.
 
 monkey.openapi3(
     name = "my_simple_spec",
     file = "priv/openapi3v1.yml",
-    host = "http://{host}:6773".format(host = Env("my_host", "127.0.0.1")),
+    host = "http://{host}:6773".format(host = monkey.env("my_host", "127.0.0.1")),
 )
 
 monkey.shell(
