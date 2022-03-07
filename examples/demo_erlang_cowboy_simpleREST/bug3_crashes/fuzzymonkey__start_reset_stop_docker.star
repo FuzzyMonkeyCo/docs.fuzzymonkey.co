@@ -2,17 +2,11 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-# Documentation validation errors will show up when running
-# * `monkey lint` or
-# * `monkey fuzz`
-# as documentation validation is the first step of fuzzing.
-# Note though that once that beofre the 'start' step is executed,
-#  no changes to documentation will be taken into account.
+# A simple setup with Docker
 
 monkey.openapi3(
     name = "my_simple_spec",
-    # A typo was introduced in the documentation!
-    file = "priv/openapi3v1_typo.json",
+    file = "priv/openapi3v1.yml",
     host = "http://localhost:6773",
 )
 
@@ -22,19 +16,23 @@ monkey.shell(
 
     # Start
     start = """
-echo Starting...
-until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&2; do
-    (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample daemon) 1>&2
-    sleep 1
+docker --version
+
+docker build --compress --force-rm --tag my_image .
+docker run --rm --detach --publish 6773:6773 --name my_image my_image
+until curl --output /dev/null --silent --fail --head http://localhost:6773/api/1/items; do
+  sleep 1
 done
-echo Started
+""",
+
+    # Reset
+    reset = """
+curl --fail -# -X DELETE http://localhost:6773/api/1/items
 """,
 
     # Stop
     stop = """
-echo Stopping...
-RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
-echo Stopped
+docker stop --time 1 my_image
 """,
 )
 

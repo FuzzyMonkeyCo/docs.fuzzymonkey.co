@@ -1,0 +1,53 @@
+diff --git a/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/check.sh b/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/check.sh
+index e05020a..50e5b1b 100755
+--- a/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/check.sh
++++ b/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/check.sh
+@@ -17,22 +17,22 @@ declare -i i=0
+ 
+ STARs[$i]=fuzzymonkey.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1)) # Funny Bash thing: ((i++)) returns 1 only when i=0
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_docker.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=7
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=7
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_json.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=7
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_failing_script.star
+@@ -42,7 +42,7 @@ Ts[$i]=7
+ 
+ STARs[$i]=fuzzymonkey__env.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=7
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__doc_typo.star
+diff --git a/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/src/sample_crud_store.erl b/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/src/sample_crud_store.erl
+index d70da93..981e33b 100644
+--- a/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/src/sample_crud_store.erl
++++ b/examples/demo_erlang_cowboy_simpleREST/bug3_crashes/src/sample_crud_store.erl
+@@ -108,7 +108,7 @@ handle_call({patch, Key, Value}, _From, State) ->
+ handle_call({delete, Key}, _From, State) ->
+     {reply, d(Key), State};
+ handle_call(erase, _From, State) ->
+-    {reply, e(), State};
++    {stop, e(), State};
+ handle_call({peek, Key}, _From, State) ->
+     {reply, undefined =/= r(Key), State}.
+ 

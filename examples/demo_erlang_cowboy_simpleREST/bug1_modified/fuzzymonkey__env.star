@@ -2,18 +2,15 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-# Documentation validation errors will show up when running
-# * `monkey lint` or
-# * `monkey fuzz`
-# as documentation validation is the first step of fuzzing.
-# Note though that once that beofre the 'start' step is executed,
-#  no changes to documentation will be taken into account.
+# `Env(name, default="")` resolves environment variable `name` from the shell calling `monkey`.
+# `Env` returns a string and defaults to the empty string.
+# Resolving happens while linting models and before any execution.
+# Resolved values are accessible in reset executors as read-only.
 
 monkey.openapi3(
     name = "my_simple_spec",
-    # A typo was introduced in the documentation!
-    file = "priv/openapi3v1_typo.json",
-    host = "http://localhost:6773",
+    file = "priv/openapi3v1.yml",
+    host = "http://{host}:6773".format(host = Env("my_host", "127.0.0.1")),
 )
 
 monkey.shell(
@@ -30,11 +27,14 @@ done
 echo Started
 """,
 
+    # Reset
+    reset = "[[ 204 = $(curl --silent --output /dev/null --write-out '%{http_code}' -X DELETE http://$my_host:6773/api/1/items) ]]",
+
     # Stop
     stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
-echo Stopped
+echo Stopped $my_host:6773
 """,
 )
 

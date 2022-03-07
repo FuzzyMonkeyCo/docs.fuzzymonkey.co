@@ -1,0 +1,59 @@
+diff --git a/examples/demo_erlang_cowboy_simpleREST/bug1_modified/check.sh b/examples/demo_erlang_cowboy_simpleREST/bug1_modified/check.sh
+index 9c1cf95..23f1ce9 100755
+--- a/examples/demo_erlang_cowboy_simpleREST/bug1_modified/check.sh
++++ b/examples/demo_erlang_cowboy_simpleREST/bug1_modified/check.sh
+@@ -17,22 +17,22 @@ declare -i i=0
+ 
+ STARs[$i]=fuzzymonkey.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1)) # Funny Bash thing: ((i++)) returns 1 only when i=0
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_docker.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_json.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_failing_script.star
+@@ -42,7 +42,7 @@ Ts[$i]=7
+ 
+ STARs[$i]=fuzzymonkey__env.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__doc_typo.star
+diff --git a/examples/demo_erlang_cowboy_simpleREST/bug1_modified/src/sample_rest_handler.erl b/examples/demo_erlang_cowboy_simpleREST/bug1_modified/src/sample_rest_handler.erl
+index 0239184..763b7d4 100644
+--- a/examples/demo_erlang_cowboy_simpleREST/bug1_modified/src/sample_rest_handler.erl
++++ b/examples/demo_erlang_cowboy_simpleREST/bug1_modified/src/sample_rest_handler.erl
+@@ -75,7 +75,13 @@ id(Req) ->
+         <<"PATCH">> ->
+             ItemId = id(Req2),
+             Rep = sample_crud_store:patch(ItemId, Item),
+-            Req3 = cowboy_req:set_resp_body(jsx:encode(Rep), Req2),
++            MaybeAlteredRep = case 0 =:= ItemId of
++                                  false -> Rep;
++                                  true ->
++                                      ?LOG_INFO("triggering a bug", []),
++                                      maps:put(<<"name">>, <<"Mr. Buggybug">>, Rep)
++                              end,
++            Req3 = cowboy_req:set_resp_body(jsx:encode(MaybeAlteredRep), Req2),
+             ?LOG_DEBUG("PATCH ~p", [ItemId]),
+             {true, Req3, State};
+         <<"PUT">> ->

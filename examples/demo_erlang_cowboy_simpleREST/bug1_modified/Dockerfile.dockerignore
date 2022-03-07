@@ -1,0 +1,6 @@
+*
+!/config
+!/priv
+!/rebar.config
+!/rebar.lock
+!/src

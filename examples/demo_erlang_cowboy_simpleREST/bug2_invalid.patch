@@ -1,0 +1,57 @@
+diff --git a/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/check.sh b/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/check.sh
+index e05020a..93a56e8 100755
+--- a/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/check.sh
++++ b/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/check.sh
+@@ -17,22 +17,22 @@ declare -i i=0
+ 
+ STARs[$i]=fuzzymonkey.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1)) # Funny Bash thing: ((i++)) returns 1 only when i=0
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_docker.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_json.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__start_reset_stop_failing_script.star
+@@ -42,7 +42,7 @@ Ts[$i]=7
+ 
+ STARs[$i]=fuzzymonkey__env.star
+ Vs[$i]=0
+-Ts[$i]=0
++Ts[$i]=6
+ ((i+=1))
+ 
+ STARs[$i]=fuzzymonkey__doc_typo.star
+diff --git a/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/src/sample_rest_handler.erl b/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/src/sample_rest_handler.erl
+index 0239184..8b4df62 100644
+--- a/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/src/sample_rest_handler.erl
++++ b/examples/demo_erlang_cowboy_simpleREST/bug2_invalid/src/sample_rest_handler.erl
+@@ -89,7 +89,11 @@ id(Req) ->
+                     {stop, Req5, State};
+                 ItemId ->
+                     Rep = sample_crud_store:put(ItemId, Item),
+-                    Req3 = cowboy_req:set_resp_body(jsx:encode(Rep), Req2),
++                    MaybeAlteredRep = case <<>> =:= maps:get(<<"name">>, Rep) of
++                                          false -> Rep;
++                                          true -> maps:put(<<"name">>, 42, Rep)
++                                      end,
++                    Req3 = cowboy_req:set_resp_body(jsx:encode(MaybeAlteredRep), Req2),
+                     Req4 = cowboy_req:reply(201, Req3),
+                     ?LOG_DEBUG("PUT ~p", [ItemId]),
+                     {stop, Req4, State}

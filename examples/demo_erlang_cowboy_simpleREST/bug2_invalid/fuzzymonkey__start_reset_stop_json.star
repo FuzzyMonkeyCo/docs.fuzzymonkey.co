@@ -2,17 +2,13 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-# Documentation validation errors will show up when running
-# * `monkey lint` or
-# * `monkey fuzz`
-# as documentation validation is the first step of fuzzing.
-# Note though that once that beofre the 'start' step is executed,
-#  no changes to documentation will be taken into account.
+# Documentation file can be YAMLv1.2 or in JSON format.
+# OpenAPIv3 (formerly known as Swagger) is supported with other formats coming
+#  such as Postman Collection, RAML, Paw as well as gRPC and others
 
 monkey.openapi3(
     name = "my_simple_spec",
-    # A typo was introduced in the documentation!
-    file = "priv/openapi3v1_typo.json",
+    file = "priv/openapi3v1.json",
     host = "http://localhost:6773",
 )
 
@@ -20,7 +16,6 @@ monkey.shell(
     name = "my_simple_spec_implementation",
     provides = ["my_simple_spec"],
 
-    # Start
     start = """
 echo Starting...
 until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&2; do
@@ -30,7 +25,10 @@ done
 echo Started
 """,
 
-    # Stop
+    reset = """
+curl --fail -# -X DELETE http://localhost:6773/api/1/items
+""",
+
     stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true

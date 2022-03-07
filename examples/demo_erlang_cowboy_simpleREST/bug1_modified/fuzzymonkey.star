@@ -2,20 +2,20 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-# Documentation validation errors will show up when running
-# * `monkey lint` or
-# * `monkey fuzz`
-# as documentation validation is the first step of fuzzing.
-# Note though that once that beofre the 'start' step is executed,
-#  no changes to documentation will be taken into account.
-
 monkey.openapi3(
     name = "my_simple_spec",
-    # A typo was introduced in the documentation!
-    file = "priv/openapi3v1_typo.json",
+    # Note: references to schemas in `file` are resolved relative to file's location.
+    file = "priv/openapi3v1.yml",
     host = "http://localhost:6773",
 )
 
+# Note: commands are executed in shells sharing the same environment variables,
+# with `set -e` and `set -o pipefail` flags on.
+
+# The following gets executed once per test
+#   so have these commands complete as fast as possible.
+# Also, make sure that each test starts from a clean slate
+#   otherwise results will be unreliable.
 monkey.shell(
     name = "my_simple_spec_implementation",
     provides = ["my_simple_spec"],

@@ -2,17 +2,16 @@
 
 ## A spec describing Web APIs in the OpenAPIv3 format
 
-# Documentation validation errors will show up when running
-# * `monkey lint` or
-# * `monkey fuzz`
-# as documentation validation is the first step of fuzzing.
-# Note though that once that beofre the 'start' step is executed,
-#  no changes to documentation will be taken into account.
+# If an error occurs while running a step's commands:
+# * the error is displayed
+# * `monkey` exits with code 7
+
+# NOTE: you may want to cleanup after a fuzzing run with
+#  $ monkey exec stop
 
 monkey.openapi3(
     name = "my_simple_spec",
-    # A typo was introduced in the documentation!
-    file = "priv/openapi3v1_typo.json",
+    file = "priv/openapi3v1.json",
     host = "http://localhost:6773",
 )
 
@@ -30,11 +29,17 @@ done
 echo Started
 """,
 
+    # A failing reset script
+    reset = """
+true  # Next command will fail due to non-zero exit code
+false
+""",
+
     # Stop
     stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
-echo Stopped
+echo Stopped localhost:6773
 """,
 )
 

@@ -1,4 +1,4 @@
-name: CI
+name: demo_erlang_cowboy_simpleREST
 
 on:
   push: {}
@@ -6,11 +6,24 @@ on:
   - cron: 0 13 * * * # daily at 1PM
 
 jobs:
-  checks:
+  meta:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: ./gen.sh
+      working-directory: examples/demo_erlang_cowboy_simpleREST
+    - run: git --no-pager diff --exit-code
+
+  cron:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        config:
+        bug:
+        - bugfree
+        - bug1_modified
+        - bug2_invalid
+        - bug3_crashes
+        starfile:
         - fuzzymonkey.star
         - fuzzymonkey__start_reset_stop_docker.star
         - fuzzymonkey__start_reset_stop.star
@@ -20,24 +33,20 @@ jobs:
         - fuzzymonkey__doc_typo.star
         - fuzzymonkey__doc_typo_json.star
     steps:
-    - uses: FuzzyMonkeyCo/setup-monkey@v1
-
-    - uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-
     - uses: erlef/setup-beam@v1
       with:
         otp-version: 22.x
         rebar3-version: '3.16.1'
 
+    - uses: FuzzyMonkeyCo/setup-monkey@v1
+
     - uses: actions/checkout@v2
 
     - run: ./check.sh
+      working-directory: examples/demo_erlang_cowboy_simpleREST/${{ matrix.bug }}
       env:
         FUZZYMONKEY_API_KEY: ${{ secrets.FUZZYMONKEY_API_KEY }}
-        STAR: ${{ matrix.config }}
+        STAR: ${{ matrix.starfile }}
 
     - run: |
         docker ps -a
