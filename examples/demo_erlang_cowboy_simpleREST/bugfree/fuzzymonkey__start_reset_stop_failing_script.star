@@ -47,7 +47,7 @@ echo Stopped localhost:6773
 
 monkey.check(
     name = "responds_within_300ms",
-    after_response = lambda ctx: assert.that(ctx.response.elapsed_ns).is_at_most(300e6),
+    after_response = lambda ctx: assert that(ctx.response.elapsed_ms).is_at_most(300),
     tags = ["timing"],
 )
 
@@ -77,7 +77,7 @@ def model_single_user(ctx):
     if matches(ctx, "GET", "/items", 200) and ctx.response.body != []:
         body = ctx.response.body
         for item_id, item in ctx.state.items():
-            assert.that(item).is_in(body)
+            assert that(item).is_in(body)
         return
 
     # Remove item from model state
@@ -102,7 +102,7 @@ def model_single_user(ctx):
         item = ctx.response.body
         item_id = str(int(item["id"]))
         if item_id in ctx.state:
-            assert.that(ctx.state[item_id]).is_equal_to(item)
+            assert that(ctx.state[item_id]).is_equal_to(item)
         return
 
 monkey.check(
@@ -119,9 +119,9 @@ def verify_overwriting(ctx):
     # Note: you can ensure your assertions work as you intend
     #
     # This passes (which can be surprising):
-    assert.that({"my": "value"}).contains_all_in({"my": 42})
+    assert that({"my": "value"}).contains_all_in({"my": 42})
     # This however fails:
-    # assert.that({"my": "value"}).contains_all_in({"key": 42})
+    # assert that({"my": "value"}).contains_all_in({"key": 42})
 
     if not matches(ctx, "PATCH", "/item/", 200):
         return
@@ -135,7 +135,7 @@ def verify_overwriting(ctx):
 
     # Ensures all pairs in request payload appear in response body
     for key, value in patch.items():
-        assert.that(merged).contains_item(key, value)
+        assert that(merged).contains_item(key, value)
 
 monkey.check(
     name = "verify_overwriting",
