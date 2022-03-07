@@ -15,7 +15,6 @@ monkey.openapi3(
 monkey.shell(
     name = "my_simple_spec_implementation",
     provides = ["my_simple_spec"],
-
     start = """
 echo Starting...
 until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&2; do
@@ -24,11 +23,9 @@ until (RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample status) 1>&
 done
 echo Started
 """,
-
     reset = """
 curl --fail -# -X DELETE http://localhost:6773/api/1/items
 """,
-
     stop = """
 echo Stopping...
 RELX_REPLACE_OS_VARS=true ./_build/prod/rel/sample/bin/sample stop || true
