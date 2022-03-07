@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push: {}
+  schedule:
+  - cron: 0 13 * * * # daily at 1PM
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+        - fuzzymonkey.star
+        - fuzzymonkey__start_reset_stop_docker.star
+        - fuzzymonkey__start_reset_stop.star
+        - fuzzymonkey__start_reset_stop_json.star
+        - fuzzymonkey__start_reset_stop_failing_script.star
+        - fuzzymonkey__env.star
+        - fuzzymonkey__doc_typo.star
+        - fuzzymonkey__doc_typo_json.star
+    steps:
+    - uses: FuzzyMonkeyCo/setup-monkey@v1
+
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: 22.x
+        rebar3-version: '3.16.1'
+
+    - uses: actions/checkout@v2
+
+    - run: ./check.sh
+      env:
+        FUZZYMONKEY_API_KEY: ${{ secrets.FUZZYMONKEY_API_KEY }}
+        STAR: ${{ matrix.config }}
+
+    - run: |
+        docker ps -a
+        [[ 0 -eq $(docker ps -q | wc -l) ]]
