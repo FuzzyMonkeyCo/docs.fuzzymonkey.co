@@ -1,0 +1,16 @@
+name: pandascore.co
+
+on:
+  push: {}
+  schedule:
+  - cron: 0 13 * * * # daily at 1PM
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: FuzzyMonkeyCo/setup-monkey@v1
+    - uses: actions/checkout@v2
+    - run: ./lint.sh
+      working-directory: examples/pandascore.co
+    - run: git --no-pager diff --exit-code
