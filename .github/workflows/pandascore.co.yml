@@ -9,6 +9,7 @@ jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
+    - uses: FuzzyMonkeyCo/setup-monkey@v1
     - uses: actions/checkout@v2
     - run: ./lint.sh
       working-directory: examples/pandascore.co
