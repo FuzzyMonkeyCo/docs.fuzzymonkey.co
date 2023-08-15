@@ -32,7 +32,7 @@ curl --fail -# -X DELETE http://localhost:6773/api/1/items
 
     # Stop
     stop = """
-docker stop --time 1 my_image
+docker stop --time 1 my_image || true
 """,
 )
 
